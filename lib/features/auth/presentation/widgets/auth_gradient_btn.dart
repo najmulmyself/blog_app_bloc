@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AuthGradientBtn extends StatelessWidget {
-  const AuthGradientBtn({super.key});
+  const AuthGradientBtn({
+    super.key,
+    required this.buttonText,
+  });
+
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +34,9 @@ class AuthGradientBtn extends StatelessWidget {
             55,
           ),
         ),
-        child: const Text(
-          "Sign Up",
-          style: TextStyle(
+        child: Text(
+          buttonText,
+          style: const TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w600,
           ),
