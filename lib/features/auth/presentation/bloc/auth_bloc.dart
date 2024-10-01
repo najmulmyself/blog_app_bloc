@@ -14,8 +14,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required UserSignUp userSignUp,
   })  : _userSignUp = userSignUp,
         super(AuthInitial()) {
+    print("not clling");
     on<AuthSignUp>(
       (event, emit) async {
+        print("called");
         final res = await _userSignUp(
           UserSignUpParams(
             event.name,
@@ -23,6 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             event.password,
           ),
         );
+
+        print(" ${res.getLeft()}");
 
         res.fold(
           (failure) => emit(

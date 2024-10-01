@@ -6,9 +6,11 @@ class AuthGradientBtn extends StatelessWidget {
   const AuthGradientBtn({
     super.key,
     required this.buttonText,
+    required this.onPressed,
   });
 
   final String buttonText;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class AuthGradientBtn extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppPallete.transparentColor,
           shadowColor: AppPallete.transparentColor,
