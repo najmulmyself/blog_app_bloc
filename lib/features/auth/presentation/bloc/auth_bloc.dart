@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:blog_app/features/auth/domain/entity/user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,9 +26,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             AuthFailure(failure.message),
           );
-        }, (uid) {
+        }, (user) {
           emit(
-            AuthSuccess(uid),
+            AuthSuccess(user),
           );
         });
       },
