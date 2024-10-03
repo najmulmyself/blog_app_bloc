@@ -21,7 +21,7 @@ class AuthRepositoryImplementation implements AuthRepository {
 
       return right(userId);
     } on ServerExceptions catch (e) {
-      return left(Failure(e.toString()));
+      return left(Failure(e.message.toString()));
     }
   }
 
