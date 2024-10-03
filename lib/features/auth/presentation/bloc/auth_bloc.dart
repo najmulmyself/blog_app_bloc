@@ -26,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
 
-        print(" ${res.getLeft()}");
+        print(" ${res.getOrElse}");
 
         res.fold(
           (failure) => emit(
