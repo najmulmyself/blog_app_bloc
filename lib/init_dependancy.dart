@@ -2,6 +2,7 @@ import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_datasources.dart';
 import 'package:blog_app/features/auth/data/repository/auth_repository_implementation.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_app/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -37,21 +38,31 @@ void _initAuth() {
     ),
   );
 
-  serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImplementation(
-        authRemoteDatasource: serviceLocator(),
-      ));
+  serviceLocator
+      .registerFactory<AuthRepository>(() => AuthRepositoryImplementation(
+            authRemoteDatasource: serviceLocator(),
+          ));
 
   serviceLocator.registerFactory(
     () => UserSignUp(
-      serviceLocator(), 
+      serviceLocator(),
       // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
-      // so we need to explictly set the type into the previous serviceLocator 
+      // so we need to explictly set the type into the previous serviceLocator
+    ),
+  );
+  
+    serviceLocator.registerFactory(
+    () => UserSignIn(
+      serviceLocator(),
+      // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
+      // so we need to explictly set the type into the previous serviceLocator
     ),
   );
 
-  serviceLocator.registerLazySingleton(()=> AuthBloc(
-    // BLoC should not create new instance everytime in the application.
-    // it should just use the existing instance so we define singleton here
-    userSignUp: serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => AuthBloc(
+        // BLoC should not create new instance everytime in the application.
+        // it should just use the existing instance so we define singleton here
+        userSignUp: serviceLocator(),
+        userSignIn: serviceLocator(),
+      ));
 }
