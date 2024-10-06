@@ -24,45 +24,45 @@ Future<void> initDependancies() async {
 }
 
 void _initAuth() {
-  serviceLocator.registerFactory<AuthRemoteDatasource>(
-    /// why we define type here?
-    /*
+  // DataSource
+  serviceLocator
+    ..registerFactory<AuthRemoteDatasource>(
+      /// why we define type here?
+      /*
     AuthRepositoryImplementation AuthRepositoryImplementation({required AuthRemoteDatasource authRemoteDatasource})
     */
-    // AuthRemoteDatasourceImpl() is a type of AuthRemoteDatasource
-    // and AuthRepositoryImplementation needs AuthRemoteDatasource not AuthRemoteDatasourceImpl so if
-    // pass only servicelocator() only it will get confused which one to pass
+      // AuthRemoteDatasourceImpl() is a type of AuthRemoteDatasource
+      // and AuthRepositoryImplementation needs AuthRemoteDatasource not AuthRemoteDatasourceImpl so if
+      // pass only servicelocator() only it will get confused which one to pass
 
-    () => AuthRemoteDatasourceImpl(
-      supabaseClient: serviceLocator(),
-    ),
-  );
-
-  serviceLocator
-      .registerFactory<AuthRepository>(() => AuthRepositoryImplementation(
-            authRemoteDatasource: serviceLocator(),
-          ));
-
-  serviceLocator.registerFactory(
-    () => UserSignUp(
-      serviceLocator(),
-      // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
-      // so we need to explictly set the type into the previous serviceLocator
-    ),
-  );
-  
-    serviceLocator.registerFactory(
-    () => UserSignIn(
-      serviceLocator(),
-      // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
-      // so we need to explictly set the type into the previous serviceLocator
-    ),
-  );
-
-  serviceLocator.registerLazySingleton(() => AuthBloc(
-        // BLoC should not create new instance everytime in the application.
-        // it should just use the existing instance so we define singleton here
-        userSignUp: serviceLocator(),
-        userSignIn: serviceLocator(),
-      ));
+      () => AuthRemoteDatasourceImpl(
+        supabaseClient: serviceLocator(),
+      ),
+    )
+    //Repository
+    ..registerFactory<AuthRepository>(() => AuthRepositoryImplementation(
+          authRemoteDatasource: serviceLocator(),
+        ))
+        // UseCase
+    ..registerFactory(
+      () => UserSignUp(
+        serviceLocator(),
+        // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
+        // so we need to explictly set the type into the previous serviceLocator
+      ),
+    )
+    ..registerFactory(
+      () => UserSignIn(
+        serviceLocator(),
+        // here's the same problem. UserSignUp needs AuthRepository not AuthRepositoryImplementation.
+        // so we need to explictly set the type into the previous serviceLocator
+      ),
+    )
+    // Bloc
+    ..registerLazySingleton(() => AuthBloc(
+          // BLoC should not create new instance everytime in the application.
+          // it should just use the existing instance so we define singleton here
+          userSignUp: serviceLocator(),
+          userSignIn: serviceLocator(),
+        ));
 }
