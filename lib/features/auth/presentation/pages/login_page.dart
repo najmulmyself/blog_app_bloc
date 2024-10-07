@@ -1,4 +1,4 @@
-import 'package:blog_app/core/common/laoding_view.dart';
+import 'package:blog_app/core/common/widgets/laoding_view.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/snackbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';

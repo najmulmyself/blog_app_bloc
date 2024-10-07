@@ -1,3 +1,4 @@
+import 'package:blog_app/core/common/cubits/auth_user/auth_user_cubit.dart';
 import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_datasources.dart';
 import 'package:blog_app/features/auth/data/repository/auth_repository_implementation.dart';
@@ -22,6 +23,10 @@ Future<void> initDependancies() async {
 
   // RegisterFactory is created everytime user requests it
   // serviceLocator.registerLazySingleton is the singleton instance that will be same instance throughout the app
+
+  //core
+
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
 
 void _initAuth() {
@@ -70,5 +75,6 @@ void _initAuth() {
           userSignUp: serviceLocator(),
           userSignIn: serviceLocator(),
           currentUser: serviceLocator(),
+          authUserCubit: serviceLocator(),
         ));
 }
