@@ -20,7 +20,6 @@ final class AuthSignIn extends AuthEvent {
   final String password;
 
   AuthSignIn(this.email, this.password);
-
 }
 
 final class AuthIsUserLoggedIn extends AuthEvent {}
